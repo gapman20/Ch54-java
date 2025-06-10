@@ -1,6 +1,8 @@
 package org.generation;
 
-import java.util.HashSet;
+
+import java.util.*;
+
 
 public class HashSetConceptos {
 
@@ -50,8 +52,17 @@ public class HashSetConceptos {
 		System.out.println("Se elimina 'Tonoto' " + blacklist.remove("Tonoto"));
 
 		// Iterar la colección usando for loop
+		List<String> listaPalabras = new ArrayList<>(blacklist);
+
+		for (int i = 0; i < listaPalabras.size(); i++) {
+		    System.out.println("Las palabras son: " + listaPalabras.get(i));
+		}
 		
 		// Iterar la colección usando for enhanced
+		for (String autos : blacklist) {
+			System.out.println("blackList es: " + blacklist);
+		}
+	
 		
 	}
 

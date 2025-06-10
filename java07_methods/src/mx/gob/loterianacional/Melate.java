@@ -28,7 +28,8 @@ public class Melate {
 	
 	/**
 	 * Muestra en consola 7 números aleatorios del 1 al 54.
-	 * Los números puender ser repetidos.
+	 * Refactorizar el método para que genere 7 números aleatorios
+	 * sin repetir.
 	 */
 	void printRandomNumbersList (int number, int min, int max) {
 		int[] num = new int [number];
