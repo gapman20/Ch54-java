@@ -12,11 +12,13 @@ public class AtmTest {
 		Atm cajero02 = new Atm(2, 400_00, "T-1000", "Av. Concha 8254");
 		Atm cajero03 = new Atm();
 		Atm cajero04 = new Atm(100_000);
+		Atm cajero05 = Atm.createAirPortAtm();
 		
 		System.out.println( cajero01 );
 		System.out.println( cajero02 );
 		System.out.println( cajero03 );
 		System.out.println( cajero04 );
+		System.out.println( cajero05 );
 
 	}
 
