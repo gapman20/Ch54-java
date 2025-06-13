@@ -36,7 +36,7 @@ public class Cat extends Feline {
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		// builder.append(super.toString());
+		builder.append(super.toString());
 		builder.append("Cat [name=");
 		builder.append(name);
 		builder.append(", isDomestic=");
