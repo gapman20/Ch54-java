@@ -1,6 +1,8 @@
 package com.zoo;
 
-public class Cat extends Feline {
+import com.roles.Pet;
+
+public class Cat extends Feline implements Pet {
 	private String name;
 	private boolean isDomestic;
 	
@@ -43,6 +45,11 @@ public class Cat extends Feline {
 		builder.append(isDomestic);
 		builder.append("]");
 		return builder.toString();
+	}
+
+	@Override
+	public String trick() {
+		return "Soy un gato, no tengo trucos, soy tu amo";
 	}
 
 		

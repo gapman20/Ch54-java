@@ -2,6 +2,7 @@ package org.generation;
 
 import com.zoo.Animal;
 import com.zoo.Cat;
+import com.zoo.Leopardo;
 
 public class AnimalTest {
 
@@ -10,6 +11,7 @@ public class AnimalTest {
 		// new Animal(); No se puede intanciar por ser una clase abstracta
 		// new Feline(); No se puede intanciar por ser una clase abstracta
 		Animal myPet  = new Cat("Judi", 0.2, true );
+		myPet = new Leopardo ("Raul", "Male", true, 5);
 		
 		System.out.println( myPet ); // Cat, Catus, 0.2, Judi, true
 		System.out.println( myPet.noise() ); // Rauul
@@ -17,7 +19,11 @@ public class AnimalTest {
 		if( myPet instanceof Cat ) {
 			Cat myCat = (Cat)myPet;
 			System.out.println("Es doméstico : " +  myCat.isDomestic());
-		} else {
+		} else if( myPet instanceof Leopardo) {
+			Leopardo myLeopard = (Leopardo)myPet;
+			System.out.println("Es salvaje: " + myLeopard.isWild() );
+		}
+		else {
 			System.out.println("Este animal no conoce ese atributo");
 		}
 			
