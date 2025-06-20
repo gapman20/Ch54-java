@@ -99,9 +99,15 @@ SELECT COUNT(DISTINCT first_name)
   Comodín _ : busqueda de cualquier caracter
   Comodín % : busqueda de cualquier número de caracteres
 */
--- muestra los usuarios que tengan el email @gmail.commit
+-- muestra los usuarios que tengan el email @gmail.com
 SELECT *
 	FROM users
     WHERE email LIKE "%@gmail.com";
+    
+-- mostrar todos los usuarios que su correo comience con "a" y su dominio sea @gmail.com
+SELECT *
+	FROM users
+    WHERE email LIKE "a%@gmail.com";
+
 
     
