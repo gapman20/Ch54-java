@@ -35,6 +35,86 @@ SELECT
   users: id, email
   addresses: id, address, postal_code
 */
+SELECT 
+	users.id AS id_users,
+	users.email,
+	addresses.id AS id_addresses,
+	addresses.address,
+	addresses.postal_code
+  FROM users
+  INNER JOIN addresses
+  ON addresses.user_id = users.id;
 
+SELECT 
+	u.id AS id_users,
+	u.email,
+	a.id AS id_addresses,
+	a.address,
+	a.postal_code
+  FROM users AS u
+  INNER JOIN addresses a
+  ON a.user_id = u.id;
+  
+  /*
+   Mostrar los usuarios con el nombre del rol asignado
+   users: id, email
+   roles: id, name
+  */
+  SELECT
+	u.id AS user_id,
+    u.email,
+    uhr.role_id AS role_id,
+    r.name AS role_name
+    FROM users u
+    INNER JOIN users_has_roles uhr
+    ON u.id = uhr.user_id
+    INNER JOIN roles r
+    ON uhr.role_id = r.id;
 
+/*
+ Mostrar los usuarios con tus ordener y el id de los items de
+ cada orden
+   users: id, email
+   orders: id, total_amout
+   order_items: product_id, quantity, price_at_purchase
+   products: name, sku
+*/
+SELECT 
+	u.id AS user_id,
+	u.email,
+	o.id AS order_id,
+	o.total_amount,
+	oi.product_id,
+	oi.quantity,
+	oi.price_at_purchase,
+    p.name AS product_name,
+    p.sku
+	FROM users u
+	INNER JOIN orders o
+	ON u.id = o.user_id
+	INNER JOIN order_items oi
+	ON o.id = oi.order_id
+    INNER JOIN products p
+    ON oi.product_id = p.id;
 
+-- De lo anterior, solo mostrar los usuarios con id = 2
+SELECT 
+	u.id AS user_id,
+	u.email,
+	o.id AS order_id,
+	o.total_amount,
+	oi.product_id,
+	oi.quantity,
+	oi.price_at_purchase,
+    p.name AS product_name,
+    p.sku
+	FROM users u
+	INNER JOIN orders o
+	ON u.id = o.user_id
+	INNER JOIN order_items oi
+	ON o.id = oi.order_id
+    INNER JOIN products p
+    ON oi.product_id = p.id
+    WHERE u.id = 3;
+    
+    

@@ -106,7 +106,7 @@ GROUP BY role_id;
 SELECT user_id, COUNT(*) AS total_orders_per_customer
 	FROM orders
 	GROUP BY user_id
-    ORDER BY total_orders_per_customer;
+    ORDER BY total_orders_per_customer DESC;
 
 -- Funciones matemáticas
 SELECT ABS(-6); -- valor absoluto de un número
@@ -120,5 +120,11 @@ SELECT CEIL(RAND() * 100);
 SELECT ROUND(9.49); -- redoneda hacía arriba, si es menor a 0.5 redondea hacía abajo
 SELECT TRUNCATE(5.4567, 2); -- trunca un número los decimales que indiquemos
 
-
+-- Buscar valores nulos
+SELECT *
+ FROM products WHERE name IS NULL;
+ 
+ -- Bucar valors que NO son nulos
+ SELECT *
+ FROM products WHERE name IS NOT NULL;
 
