@@ -1,5 +1,7 @@
 package com.monkys.tower.app.util;
 
+import java.util.Optional;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,6 +60,24 @@ public class RoleDataLoader implements CommandLineRunner {
 			log.info("Rol encontrado: {}", role);
 		}
 		
+		// ===== Leer un rol por su id ==========
+		log.info("============= Leyendo un rol por su id =============");
+		/*
+		 * La clase Optional en Java 8+ es un contenedor de objetos 
+		 * que puede o no contener un valor no nulo. Su propósito principal 
+		 * es evitar los temidos NullPointerException al proporcionar 
+		 * una forma más explícita y segura de manejar los valores 
+		 * que pueden ser nulos.
+		 */
+		long idToFind = 1L;
+		Optional<Role> roleOpt = roleRepository.findById(idToFind);
+		
+		if(roleOpt.isPresent()) {
+			Role role = roleOpt.get();
+			log.info("Rol encontrado: {}", role);
+		} else {
+			log.warn("El rol con id {} no fue encontrado",idToFind);
+		}
 		
 	}
 
