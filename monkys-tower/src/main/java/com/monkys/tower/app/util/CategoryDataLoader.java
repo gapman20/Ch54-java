@@ -22,7 +22,7 @@ public class CategoryDataLoader implements CommandLineRunner{
 		
 		categoryRepository.save(new Category(null, "Technology", "Gadgets, computadoras, y accesorios electrónicos para la vida moderna."));
 		categoryRepository.save(new Category(null, "Home & Garden","Artículos para decorar y mejorar tu casa, así como herramientas de jardinería."));
-		categoryRepository.save(new Category(null,  "Apparel", "Ropa, calzado y accesorios para hombres, mujeres y niños."));
+		categoryRepository.save(new Category(null, "Apparel", "Ropa, calzado y accesorios para hombres, mujeres y niños."));
 	}
 
 }
