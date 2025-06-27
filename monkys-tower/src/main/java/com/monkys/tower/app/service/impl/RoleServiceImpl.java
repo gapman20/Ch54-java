@@ -30,8 +30,9 @@ public class RoleServiceImpl implements RoleService {
 
 	@Override
 	public Role save(Role role) {
-		// TODO Auto-generated method stub
-		return null;
+		role.setId(null); // forzando a la creación del registro
+		Role newRole = roleRepository.save(role);
+		return newRole;
 	}
 
 	@Override
