@@ -79,6 +79,13 @@ public class RoleDataLoader implements CommandLineRunner {
 			log.warn("El rol con id {} no fue encontrado",idToFind);
 		}
 		
+		// ===== Leer roles que en su nombre contenga una palabra ==========
+		log.info("===Leer roles que en su nombre contenga====");
+		Iterable<Role> foundRoles = roleRepository.findByNameContainingIgnoreCase("cus");
+		for(Role role : foundRoles) {			
+			log.info("Rol encontrado: {}", role);
+		}
+		
 	}
 
 }

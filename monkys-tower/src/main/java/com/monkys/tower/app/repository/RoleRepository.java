@@ -3,6 +3,8 @@ package com.monkys.tower.app.repository;
 import org.springframework.data.repository.CrudRepository;
 
 import com.monkys.tower.app.model.Role;
+import java.util.List;
+
 
 /**
  * La especificación de JPA (Java Persistence API) es una especificación estándar 
@@ -48,5 +50,20 @@ import com.monkys.tower.app.model.Role;
  *   de transacciones, flush o la eliminación de entidades en lotes.
  */
 public interface RoleRepository extends CrudRepository< Role, Long> {
+	
+	/*
+	 * Los query methods se refieren a métodos definidos en las 
+	 * interfaces de repositorios en Spring Data JPA (y otras 
+	 * implementaciones de Spring Data) que permiten generar 
+	 * consultas de manera automática a partir del nombre del 
+	 * método. Estos métodos siguen una convención de nombres 
+	 * específica que indica la consulta que deben ejecutar, 
+	 * evitando la necesidad de escribir manualmente consultas 
+	 * JPQL (Java Persistence Query Language) o SQL.
+	 * 
+	 * https://docs.spring.io/spring-data/jpa/reference/jpa/query-methods.html
+	 * 
+	 */
+	List<Role> findByNameContainingIgnoreCase(String name);
 
 }
