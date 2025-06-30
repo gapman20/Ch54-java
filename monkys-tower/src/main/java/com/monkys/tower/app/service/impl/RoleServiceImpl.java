@@ -49,14 +49,21 @@ public class RoleServiceImpl implements RoleService {
 
 	@Override
 	public Role update(Long id, Role role) {
-		// TODO Auto-generated method stub
-		return null;
+		Role existingRole = findById(id);
+		// Solo se modifica los atributos permitidos
+		existingRole.setName( role.getName() );
+		existingRole.setDescription( role.getDescription() );
+		// existingRole.setId( role.getId() ); NO se permite modificar
+		Role updatedRole = roleRepository.save( existingRole );
+		return updatedRole;
 	}
 
 	@Override
 	public void deleteById(Long id) {
-		// TODO Auto-generated method stub
-		
+		Role existingRole = findById(id);
+		// existingRole.active(false); // Borrado lógico
+		// roleRepository.save( existingRole );
+		roleRepository.delete(existingRole);		
 	}
 
 	@Override
