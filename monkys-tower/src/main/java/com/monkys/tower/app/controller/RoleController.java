@@ -2,6 +2,7 @@ package com.monkys.tower.app.controller;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -57,9 +58,33 @@ public class RoleController {
 		return roles;
 	}
 	
+	/**
+	 * La anotación @RequestBody se utiliza en métodos controladores de Spring 
+	 * para indicar que el cuerpo de la solicitud HTTP entrante debe ser 
+	 * mapeado a un objeto Java.
+	 *
+	 * Es comúnmente usada en solicitudes HTTP de tipo POST o PUT, donde 
+	 * los datos se envían en el cuerpo del mensaje (generalmente en formato JSON).
+	 *
+	 * Spring se encarga automáticamente de convertir el JSON recibido al 
+	 * objeto Java correspondiente, utilizando un convertidor como Jackson.
+	 */
 	@PostMapping
 	Role createRole(@RequestBody Role role ) {
 		Role newRole = roleService.save(role);
 		return role;
 	}
+	
+	/**
+	 *  @GetMapping con Path Variable
+	 *  Path Variable vincula un valor de una variable URL
+	 *  a un parámetro del método.
+	 *  Permite capturar datos dinámicos presentes en la URL 
+	 */
+	@GetMapping("/{id}") // localhost:8080/api/v1/roles/1
+	Role getRoleById(@PathVariable("id") Long id) {
+		Role existingRole = roleService.findById(id);
+		return existingRole;
+	}
+	
 }
