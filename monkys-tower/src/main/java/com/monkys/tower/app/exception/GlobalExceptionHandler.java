@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
-//@ControllerAdvice // Este componente se utiliza para manejar excepciones globalmente
+// @ControllerAdvice // Este componente se utiliza para manejar excepciones globalmente
 public class GlobalExceptionHandler {
 	
 	ErrorDetails errorDetails;

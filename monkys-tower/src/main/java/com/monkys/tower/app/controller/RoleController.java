@@ -1,5 +1,8 @@
 package com.monkys.tower.app.controller;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -55,9 +58,10 @@ public class RoleController {
 	}
 	
 	@GetMapping // ("/api/v1/roles") http://localhost:8080/api/v1/roles
-    Iterable<Role> getAllRoles(){
+    ResponseEntity<Iterable<Role>> getAllRoles(){
 		Iterable<Role> roles = roleService.findAll();
-		return roles;
+		// new ResponseEntity<Iterable<Role>>(roles, HttpStatus.OK);
+		return ResponseEntity.ok(roles);		
 	}
 	
 	/**
@@ -72,9 +76,9 @@ public class RoleController {
 	 * objeto Java correspondiente, utilizando un convertidor como Jackson.
 	 */
 	@PostMapping
-	Role createRole(@RequestBody Role role ) {
+	ResponseEntity<Role> createRole(@RequestBody Role role ) {
 		Role newRole = roleService.save(role);
-		return role;
+		return new ResponseEntity<Role>(newRole, HttpStatus.CREATED); // 201
 	}
 	
 	/**
@@ -95,10 +99,17 @@ public class RoleController {
 		return updatedRole;
 	}
 	
+	/**
+	 * La clase ResponseEntity representa una respuesta HTTP completa, incluida
+	 * la información del estado (código HTTP), los encabezados y el cuerpo.
+	 *
+	 * Es parte del paquete org.springframework.http y se usa comúnmente en
+	 * controladores REST de Spring para tener control total sobre la respuesta.
+	 */
 	@DeleteMapping("/{id}")
-	String deleteRole(@PathVariable("id") Long id) {
+	ResponseEntity<Void> deleteRole(@PathVariable("id") Long id) {
 		roleService.deleteById(id);
-		return "El rol ha sido eliminado";
+		return ResponseEntity.noContent().build(); // 204- Sin contenido
 	}
 	
 }
