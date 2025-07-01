@@ -136,6 +136,7 @@ public class WebSecurityConfig {
 						.requestMatchers(HttpMethod.POST, "/api/v1/users").permitAll()
 						.requestMatchers(HttpMethod.POST, "/api/v1/roles").hasRole("ADMIN")
 						.requestMatchers(HttpMethod.POST, "/api/v1/products").hasRole("ADMIN")
+						.requestMatchers(HttpMethod.GET, "/api/v1/products").hasAnyRole("ADMIN", "CUSTOMER")
 						.anyRequest().authenticated() )
 				.csrf( csrf-> csrf.disable())
 				.httpBasic( withDefaults() ) 
