@@ -2,6 +2,7 @@ package com.monkys.tower.app.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.userdetails.User;
@@ -97,14 +98,45 @@ public class WebSecurityConfig {
 	 * Base64. Generalmente, provoca que el navegador muestre una 
 	 * ventana emergente nativa pidiendo credenciales.
 	 * 
+	 * withDefaults(): Se usa principalmente para pruebas rápidas o en 
+	 * APIs donde no se requiere un flujo de login complejo con formularios.
+	 * 
+	 * 
 	 * @throws Exception 
 	 */
-	@Bean
+	// STEP 2.1 Deshabilitar la seguridad
+	/*@Bean
 	SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 		return http
 				.authorizeHttpRequests( authorize-> authorize
 						.anyRequest()
 						.permitAll() )
+				.csrf( csrf-> csrf.disable())
+				.httpBasic( withDefaults() ) 
+				.build();
+	}*/
+	
+	//STEP 2.2 Personalizar la seguridad en los enpoints
+	/**
+	 * authorizeHttpRequests() es el método principal que se 
+	 * usa en Spring Security para definir las reglas de 
+	 * autorización. Es el punto de entrada donde decides 
+	 * quién puede acceder a qué URLs en tu aplicación.
+	 * 
+	 * - Matcher (.requestMatchers(...)): Primero, seleccionas un 
+	 *  conjunto de URLs (y/u opcionalmente, un método HTTP como GET, POST).
+	 * - Regla (.permitAll(), .hasRole(...), etc.): Luego, aplicas una 
+	 *  regla de seguridad a las URLs que seleccionaste.
+	 */
+	@Bean
+	SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+		return http
+				.authorizeHttpRequests( authorize-> authorize
+						.requestMatchers("/","index.html","style.css","/src/**").permitAll()
+						.requestMatchers(HttpMethod.POST, "/api/v1/users").permitAll()
+						.requestMatchers(HttpMethod.POST, "/api/v1/roles").hasRole("ADMIN")
+						.requestMatchers(HttpMethod.POST, "/api/v1/products").hasRole("ADMIN")
+						.anyRequest().authenticated() )
 				.csrf( csrf-> csrf.disable())
 				.httpBasic( withDefaults() ) 
 				.build();
