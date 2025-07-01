@@ -3,6 +3,8 @@ package com.monkys.tower.app.security;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.userdetails.User;
@@ -12,6 +14,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+
+import com.monkys.tower.app.security.jwt.JWTAuthenticationFilter;
+
 import static org.springframework.security.config.Customizer.withDefaults;
 
 /**
@@ -129,15 +134,32 @@ public class WebSecurityConfig {
 	 *  regla de seguridad a las URLs que seleccionaste.
 	 */
 	@Bean
-	SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+	SecurityFilterChain filterChain(
+			HttpSecurity http,
+			AuthenticationConfiguration authConfig
+			) throws Exception {
+		
+        // STEP 4.3.1: Obtén el AuthenticationManager desde la configuración de Spring.
+        // Este manager ya sabe cómo usar tu UserDetailsService y PasswordEncoder.
+        AuthenticationManager authenticationManager = authConfig.getAuthenticationManager();
+
+		// STEP 4.3.2 Crear el objeto y la configuración para jwtAuthenticationFilter
+		var jwtAuthenticationFilter = new JWTAuthenticationFilter();
+		jwtAuthenticationFilter.setAuthenticationManager(authenticationManager);
+		jwtAuthenticationFilter.setFilterProcessesUrl("/login");
+		
+		
 		return http
 				.authorizeHttpRequests( authorize-> authorize
-						.requestMatchers("/","index.html","style.css","/src/**").permitAll()
+						.requestMatchers("/","/login","index.html","style.css","/src/**").permitAll()
 						.requestMatchers(HttpMethod.POST, "/api/v1/users").permitAll()
 						.requestMatchers(HttpMethod.POST, "/api/v1/roles").hasRole("ADMIN")
 						.requestMatchers(HttpMethod.POST, "/api/v1/products").hasRole("ADMIN")
 						.requestMatchers(HttpMethod.GET, "/api/v1/products").hasAnyRole("ADMIN", "CUSTOMER")
 						.anyRequest().authenticated() )
+				// STEP 4.4 Agregar el filtro de autentication del login
+				// Interceptar la solicitud de autenticacion y generar el JWT en la respuesta
+				.addFilter(jwtAuthenticationFilter)
 				.csrf( csrf-> csrf.disable())
 				.httpBasic( withDefaults() ) 
 				.build();
