@@ -51,17 +51,17 @@ public class WebSecurityConfig {
 	@Bean
 	UserDetailsService userDetailsService() {
 		UserDetails sergio = User.builder()
-				.username("sergio")
+				.username("sergio@gmail.com")
 				.password("$2a$10$7phOzlVq8x6fH.aWKnLJzOABfQW3TMRlMcM.L42tmltKGPLf8hPOq") // 123
 				.roles("ADMIN") // ROLE_ADMIN
 				.build();
 		UserDetails nancy = User.builder()
-				.username("nancy")
+				.username("nancy@gmail.com")
 				.password("$2a$10$3rkDMZJ.Zz2CwwUnBdpOpOBHhGRjpCFt13m6J3CCfEOii7FWcIXmC") // magic
 				.roles("CUSTOMER") // ROLE_CUSTOMER
 				.build();
 		UserDetails jesus = User.builder()
-				.username("jesus")
+				.username("jesus@gmail.com")
 				.password("$2a$10$ndSYkq1SBRC6wsbCulMJUOAxNTULPGsWMYGehETfmpFnvZ8dGmlPa") // lors
 				.roles("CUSTOMER","ADMIN") // ROLE_CUSTOMER, ROLE_ADMIN
 				.build();

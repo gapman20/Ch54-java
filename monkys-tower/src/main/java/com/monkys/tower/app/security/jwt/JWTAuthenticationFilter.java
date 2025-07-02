@@ -67,7 +67,7 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 		
 		// STEP 5, Llamar a la utilería que genera el JWT
 		Collection<? extends GrantedAuthority> authorities = authResult.getAuthorities();
-		String token = TokenUtils.createToken(email, "---", authorities);
+		String token = TokenUtils.createToken("--", email, authorities);
 		
 		// Configuración de la respuesta
 		response.setContentType("application/json");
