@@ -21,6 +21,7 @@ public class RoleServiceImpl implements RoleService {
 	@Override
 	public Iterable<Role> findAll() {
 		return roleRepository.findAll();
+		// return null;
 	}
 
 	
