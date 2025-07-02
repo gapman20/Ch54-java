@@ -79,8 +79,41 @@ public class RoleServiceImplTest {
 		Role result = roleService.findById(1L);
 		
 		// Assert
-		
+		assertNotNull( result );
+		assertEquals( adminRole.getName(), result.getName());
+		assertEquals( 1L, result.getId() );
+		assertEquals("Administrador del sistema", result.getDescription());
 	}
+	
+	@Test
+	@DisplayName("findById: Debe lanzar una excepción si el ID no existe")
+	void testFindByIdNotFound() {
+		// Arrange
+		when(roleRepository.findById(10L)).thenReturn(Optional.empty());
+
+		// Act && Assert
+		IllegalStateException exception = assertThrows(IllegalStateException.class, () -> roleService.findById(10L));
+		assertEquals("Role does not exist with id 10", exception.getMessage());
+	}
+	
+	@Test
+	@DisplayName("save: Debe guardar un nuevo rol, y asignarle un ID")
+	void testSave() {
+		// Arrange
+		Role role = new Role(null, "WHEREHOUSE_MANAGER", "Administrador de alacén");
+		Role newRole = new Role(3L, "WHEREHOUSE_MANAGER", "Administrador de alacén");
+		// TODO hacer el when del comportamiento de roleRepository.save
+		when(roleRepository.save(role)).thenReturn(newRole);
+
+		// Act
+		Role createdRole = roleService.save(role);
+
+		// Assert
+		assertEquals(createdRole, newRole);
+		assertNotNull(createdRole.getId());
+	}
+	
+	
 
 }
 
