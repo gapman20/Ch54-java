@@ -17,7 +17,14 @@ import org.springframework.security.web.SecurityFilterChain;
 
 import com.monkys.tower.app.security.jwt.JWTAuthenticationFilter;
 
+import io.jsonwebtoken.Jwts;
+
 import static org.springframework.security.config.Customizer.withDefaults;
+
+import java.security.KeyPair;
+import java.util.Base64;
+
+import javax.crypto.SecretKey;
 
 /**
 * @EnableWebSecurity: habilita la configuración de seguridad web 
@@ -82,6 +89,15 @@ public class WebSecurityConfig {
 	 */
 	public static void main(String[] args) {
 		System.out.println( new BCryptPasswordEncoder().encode("lors") );
+        // Genera una clave segura adecuada para el algoritmo HS256 (256 bits).
+        // Para mayor seguridad, puedes usar Jwts.SIG.HS512.key().build();
+        SecretKey key = Jwts.SIG.HS256.key().build();
+
+        // Convierte los bytes de la clave a un string Base64 para poder guardarla fácilmente.
+        String base64Key = Base64.getEncoder().encodeToString(key.getEncoded());
+        System.out.println("--- TU CLAVE SECRETA JWT (en Base64) ---");       
+        System.out.println(base64Key);
+        System.out.println("-------------------------------------------");
 	}
 	
 	// STEP 2 Configuraciones personalizar al filter chain
@@ -136,14 +152,20 @@ public class WebSecurityConfig {
 	@Bean
 	SecurityFilterChain filterChain(
 			HttpSecurity http,
-			AuthenticationConfiguration authConfig
+			AuthenticationConfiguration authConfig // 4.3.1 inyección del objeto
 			) throws Exception {
 		
-        // STEP 4.3.1: Obtén el AuthenticationManager desde la configuración de Spring.
+        // STEP 4.3.2: Obtén el AuthenticationManager desde la configuración de Spring.
         // Este manager ya sabe cómo usar tu UserDetailsService y PasswordEncoder.
         AuthenticationManager authenticationManager = authConfig.getAuthenticationManager();
 
-		// STEP 4.3.2 Crear el objeto y la configuración para jwtAuthenticationFilter
+		// STEP 4.3.3 Crear el objeto y la configuración para jwtAuthenticationFilter
+        /*
+         * 1.- Cuando una petición POST llega a /login, JWTAuthenticationFilter la intercepta.
+         * 2.- El filtro le pasa el usuario y la contraseña al AuthenticationManager
+         * 3.- El AuthenticationManager usa UserDetailsService para buscar el usuario
+         * 4.- Si la autenticación es exitosa, se ejecuta el método successfulAuthentication de tu filtro 
+         */
 		var jwtAuthenticationFilter = new JWTAuthenticationFilter();
 		jwtAuthenticationFilter.setAuthenticationManager(authenticationManager);
 		jwtAuthenticationFilter.setFilterProcessesUrl("/login");

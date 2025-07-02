@@ -1,11 +1,13 @@
 package com.monkys.tower.app.security.jwt;
 
 import java.io.IOException;
+import java.util.Collection;
 
 import org.json.JSONObject;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import com.fasterxml.jackson.core.exc.StreamReadException;
@@ -62,8 +64,10 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 			) throws IOException, ServletException {
 		
 		String email = authResult.getName();
-		// TODO: Crear la utilería que genera el JWT
-		String token = "RT#VS HOLA SOY EL TOKEN 233 ";
+		
+		// STEP 5, Llamar a la utilería que genera el JWT
+		Collection<? extends GrantedAuthority> authorities = authResult.getAuthorities();
+		String token = TokenUtils.createToken(email, "---", authorities);
 		
 		// Configuración de la respuesta
 		response.setContentType("application/json");
