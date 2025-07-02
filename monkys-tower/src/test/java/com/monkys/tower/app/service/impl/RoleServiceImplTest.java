@@ -7,6 +7,7 @@ import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import javax.swing.event.ListDataEvent;
 
@@ -66,6 +67,19 @@ public class RoleServiceImplTest {
 		assertTrue( listRoles.contains( customerRole ) );
 		// Verificar que el método findAll es llamado una sola vez.
 		verify(roleRepository, times(1)).findAll(); 
+	}
+	
+	@Test
+	@DisplayName("findById: Debe devolver un rol cuando el ID exista")
+	void testFindByIdFound() {
+		// Arrange
+		when( roleRepository.findById(1L) ).thenReturn( Optional.of(adminRole));
+		
+		// Act
+		Role result = roleService.findById(1L);
+		
+		// Assert
+		
 	}
 
 }
